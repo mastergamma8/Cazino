@@ -1,33 +1,63 @@
-let balance = 1000;
-
-document.getElementById("placeBet").addEventListener("click", function() {
-    const betAmount = parseInt(document.getElementById("betAmount").value);
-    if (isNaN(betAmount) || betAmount <= 0 || betAmount > balance) {
-        alert("Введите корректную сумму ставки!");
-        return;
-    }
-
-    const winningNumber = Math.floor(Math.random() * 37); // числа от 0 до 36
-    const playerNumber = Math.floor(Math.random() * 37); // игрок выбирает случайное число
-
-    let resultText = `Выпало число: ${winningNumber}. Вы ставили на: ${playerNumber}. `;
+// Переход на экран загрузки
+document.getElementById("start-button").addEventListener("click", function() {
+    document.getElementById("welcome-screen").style.display = "none";
+    document.getElementById("loading-screen").style.display = "flex";
     
-    if (winningNumber === playerNumber) {
-        balance += betAmount * 35; // выигрыш
-        resultText += "Поздравляем! Вы выиграли!";
-    } else {
-        balance -= betAmount; // проигрыш
-        resultText += "К сожалению, вы проиграли.";
-    }
+    setTimeout(() => {
+        document.getElementById("loading-screen").style.display = "none";
+        document.getElementById("games-screen").style.display = "flex";
+    }, 2000); // Задержка в 2 секунды
+});
 
-    document.getElementById("balance").innerText = balance;
-    document.getElementById("result").innerText = resultText;
+// Переход на экран Рулетки
+document.getElementById("roulette-button").addEventListener("click", function() {
+    document.getElementById("games-screen").style.display = "none";
+    document.getElementById("roulette-screen").style.display = "flex";
+});
 
-    const history = document.getElementById("history");
-    const listItem = document.createElement("li");
-    listItem.innerText = resultText;
-    history.appendChild(listItem);
+// Логика рулетки
+document.getElementById("spin-roulette").addEventListener("click", function() {
+    const outcomes = ["Выигрыш!", "Проигрыш!", "Выигрыш!", "Проигрыш!"];
+    const randomOutcomeIndex = Math.floor(Math.random() * outcomes.length);
+    const outcome = outcomes[randomOutcomeIndex];
     
-    // Очистить поле для ставки
-    document.getElementById("betAmount").value = '';
+    document.getElementById("roulette-result-message").innerText = outcome;
+});
+
+// Назад к играм для Рулетки
+document.getElementById("back-to-games-roulette").addEventListener("click", function() {
+    document.getElementById("roulette-screen").style.display = "none";
+    document.getElementById("games-screen").style.display = "flex";
+});
+
+// Переход на экран Колеса Фортуны
+document.getElementById("wheel-button").addEventListener("click", function() {
+    document.getElementById("games-screen").style.display = "none";
+    document.getElementById("wheel-screen").style.display = "flex";
+});
+
+// Логика вращения Колеса Фортуны
+document.getElementById("spin-wheel").addEventListener("click", function() {
+    const prizes = [
+        "100 монет",
+        "200 монет",
+        "300 монет",
+        "400 монет",
+        "500 монет",
+        "600 монет",
+        "700 монет",
+        "800 монет",
+        "900 монет",
+        "1000 монет",
+    ];
+    const randomPrizeIndex = Math.floor(Math.random() * prizes.length);
+    const prize = prizes[randomPrizeIndex];
+    
+    document.getElementById("wheel-result-message").innerText = `Вы выиграли: ${prize}`;
+});
+
+// Назад к играм для Колеса Фортуны
+document.getElementById("back-to-games-wheel").addEventListener("click", function() {
+    document.getElementById("wheel-screen").style.display = "none";
+    document.getElementById("games-screen").style.display = "flex";
 });
