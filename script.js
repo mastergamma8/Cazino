@@ -1,92 +1,124 @@
-let balance = 1000; // Начальный баланс
+let balance = 0; // Начальный баланс
 const winningsHistory = [];
+const users = {}; // Словарь для хранения пользователей
+
+// Показать экран регистрации
+function showRegistrationScreen() {
+    hideAllScreens();
+    document.getElementById("registration-screen").style.display = "flex";
+}
+
+// Показать экран входа
+function showLoginScreen() {
+    hideAllScreens();
+    document.getElementById("login-screen").style.display = "flex";
+}
+
+// Скрыть все экраны
+function hideAllScreens() {
+    const screens = document.querySelectorAll(".screen");
+    screens.forEach(screen => {
+        screen.style.display = "none";
+    });
+}
+
+// Обновить сообщение о балансе
+function updateBalanceMessage() {
+    document.getElementById("balance-message").innerText = `Баланс: ${balance} рублей`;
+}
+
+// Проверка на существование пользователя
+function isUserExist(username) {
+    return users.hasOwnProperty(username);
+}
+
+// Проверка пароля
+function isPasswordCorrect(username, password) {
+    return users[username] === password;
+}
+
+// Сохранение пользователя
+function saveUser(username, password) {
+    users[username] = password;
+    localStorage.setItem('users', JSON.stringify(users));
+}
+
+// Загрузка пользователей из локального хранилища
+function loadUsers() {
+    const savedUsers = localStorage.getItem('users');
+    if (savedUsers) {
+        Object.assign(users, JSON.parse(savedUsers));
+    }
+}
+
+// Сбросить баланс
+function resetBalance() {
+    balance = 0; // Сбрасываем баланс
+    updateBalanceMessage();
+    winningsHistory.length = 0; // Очищаем историю выигрышей
+    updateWinningsHistory();
+}
+
+// Показать экран игр
+function showGamesScreen() {
+    hideAllScreens();
+    document.getElementById("games-screen").style.display = "flex";
+    updateBalanceMessage();
+}
 
 document.getElementById("start-button").addEventListener("click", function() {
-    document.getElementById("welcome-screen").style.display = "none";
+    loadUsers(); // Загружаем пользователей при старте
+    hideAllScreens();
     document.getElementById("loading-screen").style.display = "flex";
     
     setTimeout(() => {
         document.getElementById("loading-screen").style.display = "none";
-        document.getElementById("games-screen").style.display = "flex";
-    }, 2000); // Задержка в 2 секунды
+        showLoginScreen(); // Показать экран входа
+    }, 2000);
+});
+
+document.getElementById("register-button").addEventListener("click", function() {
+    const username = document.getElementById("register-username").value;
+    const password = document.getElementById("register-password").value;
+
+    if (username && password) {
+        if (isUserExist(username)) {
+            alert("Пользователь с таким именем уже существует!");
+        } else {
+            saveUser(username, password);
+            alert("Регистрация успешна! Теперь вы можете войти.");
+            showLoginScreen(); // Перейти к экрану входа
+        }
+    } else {
+        alert("Пожалуйста, заполните все поля.");
+    }
+});
+
+document.getElementById("login-button").addEventListener("click", function() {
+    const username = document.getElementById("login-username").value;
+    const password = document.getElementById("login-password").value;
+
+    if (isUserExist(username) && isPasswordCorrect(username, password)) {
+        alert("Вход успешен!");
+        balance = 1000; // Начальный баланс после входа
+        showGamesScreen();
+    } else {
+        alert("Неверное имя пользователя или пароль.");
+    }
+});
+
+document.getElementById("back-to-welcome").addEventListener("click", function() {
+    showLoginScreen(); // Вернуться на экран регистрации
+});
+
+document.getElementById("back-to-welcome-login").addEventListener("click", function() {
+    hideAllScreens();
+    document.getElementById("welcome-screen").style.display = "flex";
 });
 
 document.getElementById("roulette-button").addEventListener("click", function() {
-    document.getElementById("games-screen").style.display = "none";
+    hideAllScreens();
     document.getElementById("roulette-screen").style.display = "flex";
 });
 
-document.getElementById("spin-roulette").addEventListener("click", function() {
-    const outcomes = ["Выигрыш!", "Проигрыш!", "Выигрыш!", "Проигрыш!"];
-    const randomOutcomeIndex = Math.floor(Math.random() * outcomes.length);
-    const outcome = outcomes[randomOutcomeIndex];
-    
-    document.getElementById("roulette-result-message").innerText = outcome;
-});
-
-document.getElementById("back-to-games-roulette").addEventListener("click", function() {
-    document.getElementById("roulette-screen").style.display = "none";
-    document.getElementById("games-screen").style.display = "flex";
-});
-
-document.getElementById("wheel-button").addEventListener("click", function() {
-    document.getElementById("games-screen").style.display = "none";
-    document.getElementById("wheel-screen").style.display = "flex";
-});
-
-document.getElementById("spin-wheel").addEventListener("click", function() {
-    const betAmount = parseInt(document.getElementById("bet-amount").value);
-    if (isNaN(betAmount) || betAmount <= 0 || betAmount > balance) {
-        alert("Введите корректную сумму ставки.");
-        return;
-    }
-
-    const prizes = [
-        { name: "100 монет", value: 100 },
-        { name: "200 монет", value: 200 },
-        { name: "300 монет", value: 300 },
-        { name: "400 монет", value: 400 },
-        { name: "500 монет", value: 500 },
-        { name: "600 монет", value: 600 },
-        { name: "700 монет", value: 700 },
-        { name: "800 монет", value: 800 },
-        { name: "900 монет", value: 900 },
-        { name: "1000 монет", value: 1000 },
-    ];
-
-    const randomPrizeIndex = Math.floor(Math.random() * prizes.length);
-    const prize = prizes[randomPrizeIndex];
-    
-    // Вращение колеса
-    const wheel = document.getElementById("wheel");
-    wheel.classList.add("spin");
-
-    setTimeout(() => {
-        wheel.classList.remove("spin");
-        const totalWin = prize.value - betAmount;
-        balance += totalWin; // Увеличиваем баланс
-        winningsHistory.push(`Выиграли: ${prize.name}, Ставка: ${betAmount} монет. Выигрыш: ${totalWin} монет.`);
-        document.getElementById("wheel-result-message").innerText = `Вы выиграли: ${prize.name}`;
-        updateBalanceMessage();
-        updateWinningsHistory();
-    }, 2000); // Длительность вращения колеса
-});
-
-function updateBalanceMessage() {
-    document.getElementById("balance-message").innerText = `Баланс: ${balance} монет`;
-}
-
-function updateWinningsHistory() {
-    const historyElement = document.getElementById("winnings-history");
-    historyElement.innerHTML = ""; // Очищаем историю
-    winningsHistory.forEach(item => {
-        const li = document.createElement("li");
-        li.innerText = item;
-        historyElement.appendChild(li);
-    });
-}
-
-document.getElementById("back-to-games-wheel").addEventListener("click", function() {
-    document.getElementById("wheel-screen").style.display = "none";
-    document.getElementById("games-screen").style.display = "flex";
-});
+document.getElementById("spin-roulette").addEventListener("
