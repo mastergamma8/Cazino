@@ -11,6 +11,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    transition: opacity 0.5s ease;
 }
 
 button {
@@ -21,14 +22,15 @@ button {
     background-color: #28a745;
     color: white;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 button:hover {
     background-color: #218838;
+    transform: scale(1.05);
 }
 
-input[type="number"] {
+input[type="text"], input[type="password"], input[type="number"] {
     padding: 10px;
     margin: 10px;
     border: 2px solid #28a745;
@@ -53,5 +55,15 @@ input[type="number"] {
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
-    100% { transform: rotate(1440deg); } /* Количество оборотов колеса */
+    100% { transform: rotate(1440deg); }
+}
+
+.win {
+    color: green;
+    font-weight: bold;
+}
+
+.lose {
+    color: red;
+    font-weight: bold;
 }
