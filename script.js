@@ -52,8 +52,16 @@ document.getElementById("spin-wheel").addEventListener("click", function() {
     ];
     const randomPrizeIndex = Math.floor(Math.random() * prizes.length);
     const prize = prizes[randomPrizeIndex];
-    
-    document.getElementById("wheel-result-message").innerText = `Вы выиграли: ${prize}`;
+
+    // Вращение колеса
+    const wheel = document.getElementById("wheel");
+    wheel.classList.add("spin");
+
+    // Убираем анимацию через 2 секунды, чтобы вернуть его в начальное положение
+    setTimeout(() => {
+        wheel.classList.remove("spin");
+        document.getElementById("wheel-result-message").innerText = `Вы выиграли: ${prize}`;
+    }, 2000); // Длительность вращения колеса
 });
 
 // Назад к играм для Колеса Фортуны
