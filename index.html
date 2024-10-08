@@ -7,22 +7,35 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Добро пожаловать в Казино</h1>
-        <div class="balance">
-            <h2>Ваш баланс: <span id="balance">1000</span> монет</h2>
-        </div>
-        
-        <h3>Игра: Рулетка</h3>
-        <input type="number" id="betAmount" placeholder="Введите сумму ставки" />
-        <button id="placeBet">Сделать ставку</button>
-        
-        <div id="result"></div>
-        
-        <h3>История ставок</h3>
-        <ul id="history"></ul>
-        
-        <script src="script.js"></script>
+    <div id="welcome-screen" class="screen">
+        <h1>Добро пожаловать в Казино!</h1>
+        <button id="start-button">Начать</button>
     </div>
+
+    <div id="loading-screen" class="screen" style="display: none;">
+        <h2>Загрузка...</h2>
+    </div>
+
+    <div id="games-screen" class="screen" style="display: none;">
+        <h2>Выберите игру</h2>
+        <button id="roulette-button">Рулетка</button>
+        <button id="wheel-button">Колесо Фортуны</button>
+    </div>
+
+    <div id="roulette-screen" class="screen" style="display: none;">
+        <h2>Рулетка</h2>
+        <button id="spin-roulette">Повернуть рулетку</button>
+        <h3 id="roulette-result-message"></h3>
+        <button id="back-to-games-roulette">Назад к играм</button>
+    </div>
+
+    <div id="wheel-screen" class="screen" style="display: none;">
+        <h2>Колесо Фортуны</h2>
+        <button id="spin-wheel">Вращать колесо</button>
+        <h3 id="wheel-result-message"></h3>
+        <button id="back-to-games-wheel">Назад к играм</button>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
