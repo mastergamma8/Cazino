@@ -16,10 +16,28 @@
         <h2>Загрузка...</h2>
     </div>
 
+    <div id="registration-screen" class="screen" style="display: none;">
+        <h2>Регистрация</h2>
+        <input type="text" id="register-username" placeholder="Имя пользователя" />
+        <input type="password" id="register-password" placeholder="Пароль" />
+        <button id="register-button">Зарегистрироваться</button>
+        <button id="back-to-welcome">Назад</button>
+    </div>
+
+    <div id="login-screen" class="screen" style="display: none;">
+        <h2>Вход</h2>
+        <input type="text" id="login-username" placeholder="Имя пользователя" />
+        <input type="password" id="login-password" placeholder="Пароль" />
+        <button id="login-button">Войти</button>
+        <button id="back-to-welcome-login">Назад</button>
+    </div>
+
     <div id="games-screen" class="screen" style="display: none;">
         <h2>Выберите игру</h2>
+        <h4 id="balance-message">Баланс: 0 рублей</h4>
         <button id="roulette-button">Рулетка</button>
         <button id="wheel-button">Колесо Фортуны</button>
+        <button id="logout-button">Выйти</button>
     </div>
 
     <div id="roulette-screen" class="screen" style="display: none;">
@@ -35,9 +53,9 @@
         <input type="number" id="bet-amount" placeholder="Сумма ставки" min="1" />
         <button id="spin-wheel">Вращать колесо</button>
         <h3 id="wheel-result-message"></h3>
-        <h4 id="balance-message">Баланс: 1000 монет</h4>
         <h4>История выигрышей:</h4>
         <ul id="winnings-history"></ul>
+        <button id="reset-balance">Сбросить баланс</button>
         <button id="back-to-games-wheel">Назад к играм</button>
     </div>
 
