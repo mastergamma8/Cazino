@@ -28,9 +28,17 @@ button:hover {
     background-color: #218838;
 }
 
+input[type="number"] {
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid #28a745;
+    border-radius: 5px;
+    width: 200px;
+}
+
 .wheel {
-    width: 200px; /* Установите нужный размер колеса */
-    height: 200px; /* Установите нужный размер колеса */
+    width: 200px;
+    height: 200px;
     border: 16px solid #4CAF50;
     border-radius: 50%;
     border-top: 16px solid #f3f3f3;
