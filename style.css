@@ -27,3 +27,23 @@ button {
 button:hover {
     background-color: #218838;
 }
+
+.wheel {
+    width: 200px; /* Установите нужный размер колеса */
+    height: 200px; /* Установите нужный размер колеса */
+    border: 16px solid #4CAF50;
+    border-radius: 50%;
+    border-top: 16px solid #f3f3f3;
+    margin: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.spin {
+    animation: spin 2s forwards;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(1440deg); } /* Количество оборотов колеса */
+}
